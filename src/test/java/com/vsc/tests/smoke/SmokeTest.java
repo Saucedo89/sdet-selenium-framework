@@ -1,17 +1,24 @@
 package com.vsc.tests.smoke;
 
+import com.vsc.framework.config.ConfigReader;
+import com.vsc.tests.base.BaseTest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Test;
 
-public class SmokeTest {
+
+public class SmokeTest extends BaseTest {
 
     @Test
     public void openGoogle(){
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get("https://www.google.com");
-        driver.quit();
+
+        String url = ConfigReader.getProperty("base.url");
+
+        System.out.println("URL obtenida: " + url);
+
+        driver.get(url);
+
+
 
     }
 }
