@@ -1,6 +1,7 @@
 package com.vsc.tests.smoke;
 
 import com.vsc.framework.config.ConfigReader;
+import com.vsc.framework.driver.DriverManager;
 import com.vsc.tests.base.BaseTest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,7 +17,9 @@ public class SmokeTest extends BaseTest {
 
         System.out.println("URL obtenida: " + url);
 
-        driver.get(url);
+
+
+        DriverManager.getDriver().get(url);
 
 
 

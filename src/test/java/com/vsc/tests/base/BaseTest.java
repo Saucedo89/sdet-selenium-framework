@@ -2,32 +2,48 @@ package com.vsc.tests.base;
 
 import com.vsc.framework.config.ConfigReader;
 import com.vsc.framework.driver.DriverFactory;
+import com.vsc.framework.driver.DriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+
 import java.time.Duration;
 
 public class BaseTest {
 
-    protected WebDriver driver;
 
+
+    @Parameters("browser")
     @BeforeMethod
-    public void setUp(){
-        driver = DriverFactory.createDriver();
-        driver.manage().window().maximize();
+    public void setUp(@Optional String browser){
 
-        int implicitWait = ConfigReader.getIntProperty("implicit.wait");
+        WebDriver webDriver = DriverFactory.createDriver(browser);
 
-                driver.manage()
+        DriverManager.setDriver(webDriver);
+
+        DriverManager.getDriver()
+                .manage()
+                .window()
+                .maximize();
+
+        int implicitWait =
+                ConfigReader.getIntProperty("implicit.wait");
+
+        DriverManager.getDriver()
+                .manage()
                 .timeouts()
                 .implicitlyWait(Duration.ofSeconds(implicitWait));
-
     }
     @AfterMethod
     public void tearDown(){
-        if (driver != null){
-            driver.quit();
+        if (DriverManager.getDriver() != null) {
+
+            DriverManager.getDriver().quit();
+
+            DriverManager.removeDriver();
         }
     }
 }
